@@ -6,10 +6,12 @@ import Data.IORef (IORef, newIORef, readIORef, writeIORef)
 import System.Exit (exitFailure, exitSuccess)
 
 import Data.Binary (decode, encode)
-import Data.ByteString.Lazy (ByteString)
+import Data.ByteString.Lazy (ByteString, putStr)
 import Network.MQTT.Client
 import Network.URI (parseURI)
-import System.Random (randomRIO)
+
+callback = SimpleCallback 
+-- callback = OrderedCallback
 
 messageCount :: Int
 messageCount = 1_000_000
@@ -22,7 +24,7 @@ main = do
     let (Just uri) = parseURI "mqtt://localhost:1883"
     countRef <- newIORef @Int 0
     errSem <- newIORef Nothing
-    client <- connectURI mqttConfig {_msgCB = SimpleCallback (readerCallback errSem countRef)} uri
+    client <- connectURI mqttConfig {_msgCB = callback (readerCallback errSem countRef)} uri
     subscribe client [("test/topic", subOptions {_subQoS = qos})] []
     forkIO $ publishMessages client
     waitForMessages client errSem countRef
@@ -34,18 +36,18 @@ publishMessages client = doPublish 0
         | num <= messageCount = do
             publishq client "test/topic" (encode num) False qos []
             doPublish $ num + 1
-        | otherwise = pure ()
+        | otherwise = putStrLn "done publishing"
 
 readerCallback :: IORef (Maybe ()) -> IORef Int -> MQTTClient -> Topic -> ByteString -> [Property] -> IO ()
 readerCallback errSem countRef client _ msg _ = do
-    -- Add some random jitter
-    delay <- randomRIO (5, 1000)
-    threadDelay delay
     oldCount <- readIORef countRef
     let newCount = decode msg
-    when (newCount >= 1 && newCount < oldCount + 1) $ writeIORef errSem (Just ()) -- Allow duplicates
-    -- when (newCount >= 1 && newCount <= oldCount + 1) $ writeIORef errSem (Just ()) -- Forbid duplicates
+    when (newCount >= 1 && newCount /= oldCount + 1) $ onErr oldCount newCount
     writeIORef countRef newCount
+  where
+    onErr old new = do 
+        -- putStrLn $ show old <> " -> " <> show new
+        writeIORef errSem (Just ())
 
 waitForMessages :: MQTTClient -> IORef (Maybe ()) -> IORef Int -> IO ()
 waitForMessages !client errSem !countRef = do

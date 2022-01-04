@@ -1,0 +1,5 @@
+packages: 
+    mqtt-ordering.cabal
+    ../mqtt-hs
+
+with-compiler: ghc-8.10.7
