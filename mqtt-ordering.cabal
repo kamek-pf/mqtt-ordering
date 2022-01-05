@@ -12,7 +12,9 @@ executable mqtt-ordering
   -- Modules included in this executable, other than Main.
   -- other-modules:
 
-  ghc-options:        -O2 -threaded -with-rtsopts=-N
+  -- ghc-options:        -O2 -threaded -prof "-with-rtsopts=-N -p"
+  ghc-options:        -O2 -threaded "-with-rtsopts=-N"
+  -- ghc-options:        -O2 -threaded
   default-extensions:
     BangPatterns
     NumericUnderscores

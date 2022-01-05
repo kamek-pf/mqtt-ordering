@@ -1,0 +1,230 @@
+	Wed Jan  5 12:30 2022 Time and Allocation Profiling Report  (Final)
+
+	   mqtt-ordering +RTS -N -p -RTS
+
+	total time  =        9.37 secs   (23668 ticks @ 1000 us, 24 processors)
+	total alloc = 110,854,671,896 bytes  (excludes profiling overheads)
+
+COST CENTRE                           MODULE                        SRC                                                    %time %alloc
+
+throwSocketErrorIfMinus1RetryMayBlock Network.Socket.Internal       Network/Socket/Internal.hs:(208,1)-(209,53)             45.5    0.1
+awaitForever                          Data.Conduit.Internal.Conduit src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10)   16.1    2.7
+injectLeftovers                       Data.Conduit.Internal.Pipe    src/Data/Conduit/Internal/Pipe.hs:(410,1)-(418,38)       7.7    1.6
+publishq                              Network.MQTT.Client           src/Network/MQTT/Client.hs:(590,1)-(629,90)              4.0    1.4
+async                                 Control.Concurrent.Async      Control/Concurrent/Async.hs:264:1-35                     3.7    0.1
+parsePacket                           Network.MQTT.Types            src/Network/MQTT/Types.hs:(390,1)-(397,29)               3.6    1.8
+conduitParser                         Data.Conduit.Attoparsec       Data/Conduit/Attoparsec.hs:(134,1)-(143,31)              3.5    1.0
+MAIN                                  MAIN                          <built-in>                                               2.8    4.3
+anyWord16be                           Data.Attoparsec.Binary        Data/Attoparsec/Binary.hs:36:1-27                        2.5    0.5
+recv                                  Network.Socket.ByteString.IO  Network/Socket/ByteString/IO.hsc:(232,1)-(234,70)        2.0   85.1
+runPipe                               Data.Conduit.Internal.Pipe    src/Data/Conduit/Internal/Pipe.hs:(395,1)-(399,33)       1.5    0.2
+parseProperties                       Network.MQTT.Types            src/Network/MQTT/Types.hs:(276,1)-(279,71)               1.4    0.3
+appSource                             Data.Conduit.Network          Data/Conduit/Network.hs:(88,1)-(96,16)                   1.3    0.2
+parseConnect                          Network.MQTT.Types            src/Network/MQTT/Types.hs:(415,1)-(451,32)               1.3    0.2
+
+
+                                                                                                                                                                 individual      inherited
+COST CENTRE                                          MODULE                            SRC                                                   no.      entries  %time %alloc   %time %alloc
+
+MAIN                                                 MAIN                              <built-in>                                             595           0    2.8    4.3   100.0  100.0
+ publishq                                            Network.MQTT.Client               src/Network/MQTT/Client.hs:(590,1)-(629,90)           1344     1000001    4.0    1.4     4.0    1.4
+  unTopic                                            Network.MQTT.Topic                src/Network/MQTT/Topic.hs:28:25-31                    1345     1000001    0.0    0.0     0.0    0.0
+ connectURI                                          Network.MQTT.Client               src/Network/MQTT/Client.hs:(152,1)-(185,99)           1191           1    0.0    0.0    87.8   93.7
+  runMQTTConduit                                     Network.MQTT.Client               src/Network/MQTT/Client.hs:(273,1)-(349,45)           1196           1    0.0    0.0    87.8   93.7
+   asyncThreadId                                     Control.Concurrent.Async          Control/Concurrent/Async.hs:235:5-17                  1199           1    0.0    0.0     0.0    0.0
+   awaitForever                                      Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10) 1327           1    0.0    0.0     0.0    0.0
+   conduitParser                                     Data.Conduit.Attoparsec           Data/Conduit/Attoparsec.hs:(134,1)-(143,31)           1295           1    0.0    0.0     0.0    0.0
+   parsePacket                                       Network.MQTT.Types                src/Network/MQTT/Types.hs:(390,1)-(397,29)            1312           1    0.0    0.0     0.0    0.0
+   async                                             Control.Concurrent.Async          Control/Concurrent/Async.hs:264:1-35                  1198           0    0.0    0.0    86.0   93.2
+    runTCPClient                                     Data.Streaming.Network            Data/Streaming/Network.hs:(606,1)-(616,10)            1220           1    0.0    0.0    86.0   93.2
+     runPipe                                         Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(395,1)-(399,33)    1267     3712710    1.5    0.2    85.6   93.1
+      injectLeftovers                                Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(410,1)-(418,38)    1268           0    6.0    1.1    84.2   92.9
+       unConduitT                                    Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:124:7-16         1328     2000006    0.0    0.0     0.0    0.0
+       appSink                                       Data.Conduit.Network              Data/Conduit/Network.hs:99:1-73                       1269           0    0.0    0.0    33.9    0.5
+        awaitForever                                 Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10) 1270           0    2.0    0.2    33.9    0.5
+         appWrite                                    Data.Streaming.Network            Data/Streaming/Network.hs:653:1-43                    1271     1000004    0.4    0.1    31.9    0.4
+          appWrite'                                  Data.Streaming.Network.Internal   Data/Streaming/Network/Internal.hs:105:7-15           1272     1000004    0.3    0.0    31.4    0.3
+           sendAll                                   Network.Socket.ByteString.IO      Network/Socket/ByteString/IO.hsc:(96,1)-(100,49)      1281     2000008    0.4    0.0    31.1    0.3
+            send                                     Network.Socket.ByteString.IO      Network/Socket/ByteString/IO.hsc:(80,1)-(81,31)       1283     1000004    0.2    0.1    30.3    0.3
+             sendBuf                                 Network.Socket.Buffer             Network/Socket/Buffer.hsc:(84,1)-(99,34)              1284     1000004    0.3    0.0    30.2    0.2
+              withFdSocket                           Network.Socket.Types              Network/Socket/Types.hsc:(177,1)-(185,10)             1285     2000008    0.2    0.1    29.8    0.2
+               throwSocketErrorIfMinus1RetryMayBlock Network.Socket.Internal           Network/Socket/Internal.hs:(208,1)-(209,53)           1287     1000004   29.6    0.1    29.6    0.1
+               throwSocketErrorWaitWrite             Network.Socket.Internal           Network/Socket/Internal.hs:(246,1)-(248,44)           1286     1000004    0.1    0.0     0.1    0.0
+            waitWhen0                                Network.Socket.ByteString.IO      Network/Socket/ByteString/IO.hsc:(84,1)-(86,25)       1288     1000004    0.4    0.0     0.4    0.0
+         unConduitT                                  Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:124:7-16         1329     1000003    0.0    0.0     0.0    0.0
+       appSource                                     Data.Conduit.Network              Data/Conduit/Network.hs:(88,1)-(96,16)                1297           0    0.9    0.1    19.7   85.3
+        unConduitT                                   Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:124:7-16         1308     1436711    0.0    0.0     0.0    0.0
+        appRead                                      Data.Streaming.Network            Data/Streaming/Network.hs:650:1-41                    1300           0    0.0    0.0    18.8   85.2
+         appRead'                                    Data.Streaming.Network.Internal   Data/Streaming/Network/Internal.hs:104:7-14           1301           0    0.1    0.0    18.8   85.2
+          safeRecv                                   Data.Streaming.Network            Data/Streaming/Network.hs:331:1-15                    1302           0    0.0    0.0    18.7   85.2
+           recv                                      Network.Socket.ByteString.IO      Network/Socket/ByteString/IO.hsc:(232,1)-(234,70)     1303           0    2.0   85.1    18.7   85.2
+            recvBuf                                  Network.Socket.Buffer             Network/Socket/Buffer.hsc:(141,1)-(155,29)            1304      718356    0.3    0.0    16.7    0.2
+             withFdSocket                            Network.Socket.Types              Network/Socket/Types.hsc:(177,1)-(185,10)             1305     1436712    0.5    0.1    16.4    0.1
+              throwSocketErrorIfMinus1RetryMayBlock  Network.Socket.Internal           Network/Socket/Internal.hs:(208,1)-(209,53)           1307      718356   15.9    0.0    15.9    0.0
+              throwSocketErrorWaitRead               Network.Socket.Internal           Network/Socket/Internal.hs:(229,1)-(231,43)           1306      718356    0.1    0.0     0.1    0.0
+       awaitForever                                  Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10) 1322           0   12.3    2.1    12.3    2.1
+        unConduitT                                   Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:124:7-16         1323     1999006    0.0    0.0     0.0    0.0
+        bsProps                                      Network.MQTT.Types                src/Network/MQTT/Types.hs:(271,1)-(273,74)            1330     1000002    0.0    0.0     0.0    0.0
+       conduitParser                                 Data.Conduit.Attoparsec           Data/Conduit/Attoparsec.hs:(134,1)-(143,31)           1309           0    3.5    1.0    12.3    3.8
+        unConduitT                                   Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:124:7-16         1310     7000022    0.0    0.0     0.0    0.0
+        buffer                                       Data.Attoparsec.ByteString.Buffer Data/Attoparsec/ByteString/Buffer.hs:86:1-59          1318     1000003    0.1    0.1     0.1    0.1
+        runParser                                    Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1311     1000003    0.0    0.0     0.0    0.0
+        parsePacket                                  Network.MQTT.Types                src/Network/MQTT/Types.hs:(390,1)-(397,29)            1313           0    3.6    1.8     8.7    2.8
+         runParser                                   Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1314    30000105    0.0    0.0     0.0    0.0
+         fromPos                                     Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:46:21-27            1333     2000010    0.0    0.0     0.0    0.0
+         anyWord16be                                 Data.Attoparsec.Binary            Data/Attoparsec/Binary.hs:36:1-27                     1336           0    2.5    0.5     3.9    0.8
+          runParser                                  Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1337    16000023    0.0    0.0     0.0    0.0
+          parseProperties                            Network.MQTT.Types                src/Network/MQTT/Types.hs:(276,1)-(279,71)            1338     1000002    1.4    0.3     1.4    0.3
+           runParser                                 Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1339     8000035    0.0    0.0     0.0    0.0
+           buffer                                    Data.Attoparsec.ByteString.Buffer Data/Attoparsec/ByteString/Buffer.hs:86:1-59          1340           1    0.0    0.0     0.0    0.0
+           demandInput                               Data.Attoparsec.Internal          Data/Attoparsec/Internal.hs:(73,1)-(78,41)            1342           0    0.0    0.0     0.0    0.0
+            runParser                                Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1343           2    0.0    0.0     0.0    0.0
+         parseConnect                                Network.MQTT.Types                src/Network/MQTT/Types.hs:(415,1)-(451,32)            1316           0    1.3    0.2     1.3    0.2
+          runParser                                  Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1317    10000055    0.0    0.0     0.0    0.0
+          fromPos                                    Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:46:21-27            1319     2000008    0.0    0.0     0.0    0.0
+          parseProperties                            Network.MQTT.Types                src/Network/MQTT/Types.hs:(276,1)-(279,71)            1320           1    0.0    0.0     0.0    0.0
+           runParser                                 Data.Attoparsec.Internal.Types    Data/Attoparsec/Internal/Types.hs:111:7-15            1321           1    0.0    0.0     0.0    0.0
+     fuse                                            Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:767:1-12         1263           5    0.0    0.0     0.0    0.0
+     asyncThreadId                                   Control.Concurrent.Async          Control/Concurrent/Async.hs:235:5-17                  1289           4    0.0    0.0     0.0    0.0
+     close                                           Network.Socket.Types              Network/Socket/Types.hsc:(247,1)-(256,43)             1276           2    0.0    0.0     0.0    0.0
+      invalidateSocket                               Network.Socket.Types              Network/Socket/Types.hsc:(234,1)-(236,76)             1277           2    0.0    0.0     0.0    0.0
+     appSink                                         Data.Conduit.Network              Data/Conduit/Network.hs:99:1-73                       1264           1    0.0    0.0     0.0    0.0
+      awaitForever                                   Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10) 1265           1    0.0    0.0     0.0    0.0
+       unConduitT                                    Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:124:7-16         1266           1    0.0    0.0     0.0    0.0
+     appSource                                       Data.Conduit.Network              Data/Conduit/Network.hs:(88,1)-(96,16)                1296           1    0.4    0.1     0.4    0.1
+      appRead                                        Data.Streaming.Network            Data/Streaming/Network.hs:650:1-41                    1298           1    0.0    0.0     0.0    0.0
+       appRead'                                      Data.Streaming.Network.Internal   Data/Streaming/Network/Internal.hs:104:7-14           1299           1    0.0    0.0     0.0    0.0
+     awaitForever                                    Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10) 1294           1    0.0    0.0     0.0    0.0
+     getSocketFamilyTCP                              Data.Streaming.Network            Data/Streaming/Network.hs:(397,1)-(413,46)            1221           1    0.0    0.0     0.0    0.0
+      addrAddress                                    Network.Socket.Info               Network/Socket/Info.hsc:106:5-15                      1251           2    0.0    0.0     0.0    0.0
+      addrFamily                                     Network.Socket.Info               Network/Socket/Info.hsc:103:5-14                      1234           1    0.0    0.0     0.0    0.0
+      addrProtocol                                   Network.Socket.Info               Network/Socket/Info.hsc:105:5-16                      1237           1    0.0    0.0     0.0    0.0
+      addrSocketType                                 Network.Socket.Info               Network/Socket/Info.hsc:104:5-18                      1236           1    0.0    0.0     0.0    0.0
+      getAddrInfo                                    Network.Socket.Info               Network/Socket/Info.hsc:(249,1)-(290,25)              1222           1    0.0    0.0     0.0    0.0
+       followAddrInfo                                Network.Socket.Info               Network/Socket/Info.hsc:(294,1)-(299,23)              1229           3    0.0    0.0     0.0    0.0
+        peekSockAddr                                 Network.Socket.Types              Network/Socket/Types.hsc:(1187,1)-(1207,39)           1230           2    0.0    0.0     0.0    0.0
+       packBits                                      Network.Socket.Info               Network/Socket/Info.hsc:(397,1)-(400,39)              1224           1    0.0    0.0     0.0    0.0
+       packFamily                                    Network.Socket.Types              Network/Socket/Types.hsc:396:27-36                    1226           1    0.0    0.0     0.0    0.0
+       packSocketType                                Network.Socket.Types              Network/Socket/Types.hsc:313:35-48                    1227           1    0.0    0.0     0.0    0.0
+      setSocketOption                                Network.Socket.Options            Network/Socket/Options.hsc:(356,1)-(360,65)           1243           1    0.0    0.0     0.0    0.0
+       setSockOpt                                    Network.Socket.Options            Network/Socket/Options.hsc:(368,1)-(373,42)           1244           1    0.0    0.0     0.0    0.0
+        withFdSocket                                 Network.Socket.Types              Network/Socket/Types.hsc:(177,1)-(185,10)             1245           1    0.0    0.0     0.0    0.0
+         throwSocketErrorIfMinus1_                   Network.Socket.Internal           Network/Socket/Internal.hs:216:1-47                   1246           1    0.0    0.0     0.0    0.0
+      socket                                         Network.Socket.Syscall            Network/Socket/Syscall.hs:(76,1)-(115,34)             1231           1    0.0    0.0     0.0    0.0
+       mkSocket                                      Network.Socket.Types              Network/Socket/Types.hsc:(216,1)-(220,12)             1238           1    0.0    0.0     0.0    0.0
+       packFamily                                    Network.Socket.Types              Network/Socket/Types.hsc:396:27-36                    1233           1    0.0    0.0     0.0    0.0
+       packSocketType                                Network.Socket.Types              Network/Socket/Types.hsc:313:35-48                    1235           1    0.0    0.0     0.0    0.0
+       setSocketOption                               Network.Socket.Options            Network/Socket/Options.hsc:(356,1)-(360,65)           1239           1    0.0    0.0     0.0    0.0
+        setSockOpt                                   Network.Socket.Options            Network/Socket/Options.hsc:(368,1)-(373,42)           1240           1    0.0    0.0     0.0    0.0
+         withFdSocket                                Network.Socket.Types              Network/Socket/Types.hsc:(177,1)-(185,10)             1241           1    0.0    0.0     0.0    0.0
+          throwSocketErrorIfMinus1_                  Network.Socket.Internal           Network/Socket/Internal.hs:216:1-47                   1242           1    0.0    0.0     0.0    0.0
+       throwSocketErrorIfMinus1Retry                 Network.Socket.Internal           Network/Socket/Internal.hs:214:1-55                   1232           1    0.0    0.0     0.0    0.0
+      connect                                        Network.Socket.SockAddr           Network/Socket/SockAddr.hs:40:1-19                    1248           0    0.0    0.0     0.0    0.0
+       connect                                       Network.Socket.Syscall            Network/Socket/Syscall.hs:(139,1)-(140,40)            1249           1    0.0    0.0     0.0    0.0
+        withSocketAddress                            Network.Socket.Types              Network/Socket/Types.hsc:(1013,1)-(1018,75)           1250           1    0.0    0.0     0.0    0.0
+         connectLoop                                 Network.Socket.Syscall            Network/Socket/Syscall.hs:(143,1)-(162,71)            1254           1    0.0    0.0     0.0    0.0
+          withFdSocket                               Network.Socket.Types              Network/Socket/Types.hsc:(177,1)-(185,10)             1255           3    0.0    0.0     0.0    0.0
+           getSocketOption                           Network.Socket.Options            Network/Socket/Options.hsc:(381,1)-(387,27)           1256           1    0.0    0.0     0.0    0.0
+            getSockOpt                               Network.Socket.Options            Network/Socket/Options.hsc:(394,1)-(400,16)           1257           1    0.0    0.0     0.0    0.0
+           throwSocketErrorIfMinus1Retry_            Network.Socket.Internal           Network/Socket/Internal.hs:(121,1)-(122,46)           1258           1    0.0    0.0     0.0    0.0
+            throwSocketErrorIfMinus1Retry            Network.Socket.Internal           Network/Socket/Internal.hs:214:1-55                   1259           1    0.0    0.0     0.0    0.0
+         pokeSockAddr                                Network.Socket.Types              Network/Socket/Types.hsc:(1153,1)-(1183,50)           1252           1    0.0    0.0     0.0    0.0
+          zeroMemory                                 Network.Socket.Types              Network/Socket/Types.hsc:1438:1-60                    1253           1    0.0    0.0     0.0    0.0
+     waitAnyCancel                                   Control.Concurrent.Async          Control/Concurrent/Async.hs:(510,1)-(511,46)          1290           1    0.0    0.0     0.0    0.0
+      waitAnySTM                                     Control.Concurrent.Async          Control/Concurrent/Async.hs:(502,1)-(504,57)          1291           1    0.0    0.0     0.0    0.0
+       waitSTM                                       Control.Concurrent.Async          Control/Concurrent/Async.hs:(394,1)-(396,27)          1293           8    0.0    0.0     0.0    0.0
+     injectLeftovers                                 Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(410,1)-(418,38)    1292           0    0.0    0.0     0.0    0.0
+     safeRecv                                        Data.Streaming.Network            Data/Streaming/Network.hs:331:1-15                    1274           0    0.0    0.0     0.0    0.0
+      recv                                           Network.Socket.ByteString.IO      Network/Socket/ByteString/IO.hsc:(232,1)-(234,70)     1275           1    0.0    0.0     0.0    0.0
+   injectLeftovers                                   Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(410,1)-(418,38)    1262           0    1.7    0.5     1.7    0.5
+  uriAuthority                                       Network.URI                       Network/URI.hs:183:7-18                               1204           1    0.0    0.0     0.0    0.0
+  uriFragment                                        Network.URI                       Network/URI.hs:186:7-17                               1280           1    0.0    0.0     0.0    0.0
+  uriPort                                            Network.URI                       Network/URI.hs:235:7-13                               1203           1    0.0    0.0     0.0    0.0
+  uriRegName                                         Network.URI                       Network/URI.hs:234:7-16                               1206           1    0.0    0.0     0.0    0.0
+  uriScheme                                          Network.URI                       Network/URI.hs:182:7-15                               1192           1    0.0    0.0     0.0    0.0
+  uriUserInfo                                        Network.URI                       Network/URI.hs:233:7-17                               1279           1    0.0    0.0     0.0    0.0
+  clientSettings                                     Data.Conduit.Network              Data/Conduit/Network.hs:85:1-37                       1201           0    0.0    0.0     0.0    0.0
+   clientSettingsTCP                                 Data.Streaming.Network            Data/Streaming/Network.hs:(386,1)-(391,5)             1202           1    0.0    0.0     0.0    0.0
+ normalDisconnect                                    Network.MQTT.Client               src/Network/MQTT/Client.hs:643:1-65                   1358           1    0.0    0.0     0.0    0.0
+  disconnect                                         Network.MQTT.Client               src/Network/MQTT/Client.hs:(633,1)-(639,60)           1359           1    0.0    0.0     0.0    0.0
+   race_                                             Control.Concurrent.Async          Control/Concurrent/Async.hs:761:1-41                  1360           1    0.0    0.0     0.0    0.0
+    race                                             Control.Concurrent.Async          Control/Concurrent/Async.hs:(752,1)-(758,31)          1361           1    0.0    0.0     0.0    0.0
+     waitSTM                                         Control.Concurrent.Async          Control/Concurrent/Async.hs:(394,1)-(396,27)          1362           1    0.0    0.0     0.0    0.0
+      connectURI                                     Network.MQTT.Client               src/Network/MQTT/Client.hs:(152,1)-(185,99)           1363           0    0.0    0.0     0.0    0.0
+       runMQTTConduit                                Network.MQTT.Client               src/Network/MQTT/Client.hs:(273,1)-(349,45)           1364           0    0.0    0.0     0.0    0.0
+        async                                        Control.Concurrent.Async          Control/Concurrent/Async.hs:264:1-35                  1365           0    0.0    0.0     0.0    0.0
+ subscribe                                           Network.MQTT.Client               src/Network/MQTT/Client.hs:(551,1)-(560,87)           1324           1    0.0    0.0     5.4    0.6
+  asyncThreadId                                      Control.Concurrent.Async          Control/Concurrent/Async.hs:235:5-17                  1326           1    0.0    0.0     0.0    0.0
+  unFilter                                           Network.MQTT.Topic                src/Network/MQTT/Topic.hs:47:27-34                    1331           1    0.0    0.0     0.0    0.0
+  async                                              Control.Concurrent.Async          Control/Concurrent/Async.hs:264:1-35                  1325           0    3.7    0.1     5.4    0.6
+   connectURI                                        Network.MQTT.Client               src/Network/MQTT/Client.hs:(152,1)-(185,99)           1346           0    0.0    0.0     0.0    0.0
+    runMQTTConduit                                   Network.MQTT.Client               src/Network/MQTT/Client.hs:(273,1)-(349,45)           1347           0    0.0    0.0     0.0    0.0
+   runTCPClient                                      Data.Streaming.Network            Data/Streaming/Network.hs:(606,1)-(616,10)            1348           0    0.0    0.0     1.7    0.5
+    runPipe                                          Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(395,1)-(399,33)    1349           0    0.0    0.0     1.7    0.5
+     injectLeftovers                                 Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(410,1)-(418,38)    1350           0    0.0    0.0     1.7    0.5
+      awaitForever                                   Data.Conduit.Internal.Conduit     src/Data/Conduit/Internal/Conduit.hs:(951,1)-(953,10) 1351           0    1.7    0.5     1.7    0.5
+ waitForClient                                       Network.MQTT.Client               src/Network/MQTT/Client.hs:(354,1)-(359,26)           1366           1    0.0    0.0     0.0    0.0
+  waitSTM                                            Control.Concurrent.Async          Control/Concurrent/Async.hs:(394,1)-(396,27)          1367           1    0.0    0.0     0.0    0.0
+ CAF                                                 Main                              <entire-module>                                       1189           0    0.0    0.0     0.0    0.0
+  parseURI                                           Network.URI                       Network/URI.hs:298:1-26                               1194           0    0.0    0.0     0.0    0.0
+   isUnreserved                                      Network.URI                       Network/URI.hs:458:1-54                               1195          24    0.0    0.0     0.0    0.0
+ CAF                                                 Network.MQTT.Client               <entire-module>                                       1188           0    0.0    0.0     0.0    0.0
+  mqttConfig                                         Network.MQTT.Client               src/Network/MQTT/Client.hs:(132,1)-(138,73)           1190           1    0.0    0.0     0.0    0.0
+  connectURI                                         Network.MQTT.Client               src/Network/MQTT/Client.hs:(152,1)-(185,99)           1205           0    0.0    0.0     0.0    0.0
+  runMQTTConduit                                     Network.MQTT.Client               src/Network/MQTT/Client.hs:(273,1)-(349,45)           1260           0    0.0    0.0     0.0    0.0
+   injectLeftovers                                   Data.Conduit.Internal.Pipe        src/Data/Conduit/Internal/Pipe.hs:(410,1)-(418,38)    1261           1    0.0    0.0     0.0    0.0
+ CAF                                                 Network.MQTT.Types                <entire-module>                                       1186           0    0.0    0.0     0.0    0.0
+  connectRequest                                     Network.MQTT.Types                src/Network/MQTT/Types.hs:(310,1)-(312,55)            1278           1    0.0    0.0     0.0    0.0
+  parseConnect                                       Network.MQTT.Types                src/Network/MQTT/Types.hs:(415,1)-(451,32)            1315           1    0.0    0.0     0.0    0.0
+  parseHdrLen                                        Network.MQTT.Types                src/Network/MQTT/Types.hs:79:1-26                     1334           1    0.0    0.0     0.0    0.0
+  subOptions                                         Network.MQTT.Types                src/Network/MQTT/Types.hs:(602,1)-(605,38)            1332           1    0.0    0.0     0.0    0.0
+ CAF                                                 Network.URI                       <entire-module>                                       1165           0    0.0    0.0     0.0    0.0
+  parseURI                                           Network.URI                       Network/URI.hs:298:1-26                               1193           1    0.0    0.0     0.0    0.0
+ CAF                                                 Data.Conduit.Network              <entire-module>                                        903           0    0.0    0.0     0.0    0.0
+  clientSettings                                     Data.Conduit.Network              Data/Conduit/Network.hs:85:1-37                       1200           1    0.0    0.0     0.0    0.0
+ CAF                                                 Data.Streaming.Network            <entire-module>                                        902           0    0.0    0.0     0.0    0.0
+  close                                              Network.Socket.Types              Network/Socket/Types.hsc:(247,1)-(256,43)             1218           1    0.0    0.0     0.0    0.0
+   invalidateSocket                                  Network.Socket.Types              Network/Socket/Types.hsc:(234,1)-(236,76)             1219           1    0.0    0.0     0.0    0.0
+  getSocketOption                                    Network.Socket.Options            Network/Socket/Options.hsc:(381,1)-(387,27)           1213           1    0.0    0.0     0.0    0.0
+   getSockOpt                                        Network.Socket.Options            Network/Socket/Options.hsc:(394,1)-(400,16)           1214           1    0.0    0.0     0.0    0.0
+    withFdSocket                                     Network.Socket.Types              Network/Socket/Types.hsc:(177,1)-(185,10)             1215           1    0.0    0.0     0.0    0.0
+     throwSocketErrorIfMinus1Retry_                  Network.Socket.Internal           Network/Socket/Internal.hs:(121,1)-(122,46)           1216           1    0.0    0.0     0.0    0.0
+      throwSocketErrorIfMinus1Retry                  Network.Socket.Internal           Network/Socket/Internal.hs:214:1-55                   1217           1    0.0    0.0     0.0    0.0
+  safeRecv                                           Data.Streaming.Network            Data/Streaming/Network.hs:331:1-15                    1273           1    0.0    0.0     0.0    0.0
+  socket                                             Network.Socket.Syscall            Network/Socket/Syscall.hs:(76,1)-(115,34)             1207           1    0.0    0.0     0.0    0.0
+   mkSocket                                          Network.Socket.Types              Network/Socket/Types.hsc:(216,1)-(220,12)             1212           1    0.0    0.0     0.0    0.0
+    close                                            Network.Socket.Types              Network/Socket/Types.hsc:(247,1)-(256,43)             1352           1    0.0    0.0     0.0    0.0
+     invalidateSocket                                Network.Socket.Types              Network/Socket/Types.hsc:(234,1)-(236,76)             1353           1    0.0    0.0     0.0    0.0
+   packFamily                                        Network.Socket.Types              Network/Socket/Types.hsc:396:27-36                    1209           1    0.0    0.0     0.0    0.0
+   packSocketType                                    Network.Socket.Types              Network/Socket/Types.hsc:313:35-48                    1210           1    0.0    0.0     0.0    0.0
+   throwSocketErrorIfMinus1Retry                     Network.Socket.Internal           Network/Socket/Internal.hs:214:1-55                   1208           1    0.0    0.0     0.0    0.0
+ CAF                                                 Network.Socket.ByteString.IO      <entire-module>                                        895           0    0.0    0.0     0.0    0.0
+  sendAll                                            Network.Socket.ByteString.IO      Network/Socket/ByteString/IO.hsc:(96,1)-(100,49)      1282           0    0.0    0.0     0.0    0.0
+ CAF                                                 Network.Socket.Cbits              <entire-module>                                        893           0    0.0    0.0     0.0    0.0
+  sockNonBlock                                       Network.Socket.Cbits              Network/Socket/Cbits.hsc:27:1-19                      1211           1    0.0    0.0     0.0    0.0
+ CAF                                                 Network.Socket.Info               <entire-module>                                        891           0    0.0    0.0     0.0    0.0
+  aiFlagMapping                                      Network.Socket.Info               dist/build/Network/Socket/Info.hs:70:1-15             1225           1    0.0    0.0     0.0    0.0
+  defaultHints                                       Network.Socket.Info               Network/Socket/Info.hsc:(194,1)-(201,3)               1223           1    0.0    0.0     0.0    0.0
+ CAF                                                 Network.Socket.SockAddr           <entire-module>                                        887           0    0.0    0.0     0.0    0.0
+  connect                                            Network.Socket.SockAddr           Network/Socket/SockAddr.hs:40:1-19                    1247           1    0.0    0.0     0.0    0.0
+ CAF                                                 Network.Socket.Types              <entire-module>                                        885           0    0.0    0.0     0.0    0.0
+  defaultProtocol                                    Network.Socket.Types              Network/Socket/Types.hsc:290:1-19                     1228           1    0.0    0.0     0.0    0.0
+ CAF                                                 Data.Attoparsec.Binary            <entire-module>                                        851           0    0.0    0.0     0.0    0.0
+  anyWord16be                                        Data.Attoparsec.Binary            Data/Attoparsec/Binary.hs:36:1-27                     1335           1    0.0    0.0     0.0    0.0
+ CAF                                                 Control.Concurrent.Async          <entire-module>                                        850           0    0.0    0.0     0.0    0.0
+  async                                              Control.Concurrent.Async          Control/Concurrent/Async.hs:264:1-35                  1197           1    0.0    0.0     0.0    0.0
+ CAF                                                 Data.Attoparsec.Internal          <entire-module>                                        834           0    0.0    0.0     0.0    0.0
+  demandInput                                        Data.Attoparsec.Internal          Data/Attoparsec/Internal.hs:(73,1)-(78,41)            1341           1    0.0    0.0     0.0    0.0
+ CAF                                                 Data.Unique                       <entire-module>                                        721           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.Conc.Signal                   <entire-module>                                        705           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.IO.Encoding                   <entire-module>                                        686           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.IO.Encoding.Iconv             <entire-module>                                        684           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.IO.Handle.FD                  <entire-module>                                        675           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.IO.Handle.Text                <entire-module>                                        673           0    0.0    0.0     0.0    0.0
+ CAF                                                 Text.Read.Lex                     <entire-module>                                        631           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.Event.Thread                  <entire-module>                                        624           0    0.0    0.0     0.0    0.0
+ CAF                                                 GHC.Event.Poll                    <entire-module>                                        613           0    0.0    0.0     0.0    0.0
+ socket                                              Network.Socket.Syscall            Network/Socket/Syscall.hs:(76,1)-(115,34)             1354           0    0.0    0.0     0.0    0.0
+  mkSocket                                           Network.Socket.Types              Network/Socket/Types.hsc:(216,1)-(220,12)             1355           0    0.0    0.0     0.0    0.0
+   close                                             Network.Socket.Types              Network/Socket/Types.hsc:(247,1)-(256,43)             1356           0    0.0    0.0     0.0    0.0
+    invalidateSocket                                 Network.Socket.Types              Network/Socket/Types.hsc:(234,1)-(236,76)             1357           0    0.0    0.0     0.0    0.0

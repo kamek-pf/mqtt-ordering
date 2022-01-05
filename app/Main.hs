@@ -10,10 +10,11 @@ import Data.ByteString.Lazy (ByteString, putStr)
 import Network.MQTT.Client
 import Network.URI (parseURI)
 
-callback = SimpleCallback 
--- callback = OrderedCallback
+-- callback = SimpleCallback 
+callback = OrderedCallback
 
 messageCount :: Int
+-- messageCount = 100_000
 messageCount = 1_000_000
 
 qos :: QoS
@@ -32,7 +33,7 @@ main = do
 publishMessages :: MQTTClient -> IO ()
 publishMessages client = doPublish 0
   where
-    doPublish !num
+    doPublish num
         | num <= messageCount = do
             publishq client "test/topic" (encode num) False qos []
             doPublish $ num + 1
@@ -46,11 +47,11 @@ readerCallback errSem countRef client _ msg _ = do
     writeIORef countRef newCount
   where
     onErr old new = do 
-        -- putStrLn $ show old <> " -> " <> show new
+        putStrLn $ show old <> " -> " <> show new
         writeIORef errSem (Just ())
 
 waitForMessages :: MQTTClient -> IORef (Maybe ()) -> IORef Int -> IO ()
-waitForMessages !client errSem !countRef = do
+waitForMessages client errSem countRef = do
     threadDelay 100_000
     current <- readIORef countRef
     didFail <- readIORef errSem
